@@ -1,15 +1,28 @@
-import React from 'react'
-// import * as BooksAPI from './BooksAPI'
-import '../App.css'
+import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+import '../App.css';
+import shelfs from '../utils/Shelfs';
 
 import Shelf from '../components/Shelf';
 
 class BooksApp extends React.Component {
-  state = {
+
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    handleAddBooks: PropTypes.func.isRequired
+  }
+
+  checkShelf = (books, shelf) => {
+    return books.filter(book => (
+      book.shelf === shelf
+    ));
   }
 
   render() {
+    let { books, handleAddBooks } = this.props;
+
     return (
       <div className="app">
         <div className="list-books">
@@ -18,9 +31,9 @@ class BooksApp extends React.Component {
           </div>
           <div className="list-books-content">
             <div>
-              <Shelf title="Currently Reading" />
-              <Shelf title="Want to Read" />
-              <Shelf title="Read" />
+              { shelfs.map(shelf => (
+                shelf.value != 'none' ? <Shelf title={ shelf.title } books={ this.checkShelf(books, shelf.value) } handleUpdateShelf={ handleAddBooks } /> : ''
+              ))}
             </div>
           </div>
           <div className="open-search">

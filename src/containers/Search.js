@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import * as API from '../api/BooksAPI';
+import * as API from '../utils/BooksAPI';
 import Book from '../components/Book';
 
 class Search extends React.Component {
+
+    static propTypes = {
+        handleAddBooks: PropTypes.func.isRequired
+    }
     
     state = {
         value: '',
@@ -21,6 +26,7 @@ class Search extends React.Component {
 
     render() {
         let { results } = this.state;
+        let { handleAddBooks } = this.props;
 
         return(
             <div className="search-books">
@@ -41,9 +47,8 @@ class Search extends React.Component {
                             { results.map(book => (
                                 <Book 
                                     key={ book.id }
-                                    title={ book.title }
-                                    authors={ book.authors }
-                                    image={ book.imageLinks ? book.imageLinks.thumbnail : '' }
+                                    book={ book }
+                                    updateShelf={ handleAddBooks }
                                 />
                             )) }
                         </ol>

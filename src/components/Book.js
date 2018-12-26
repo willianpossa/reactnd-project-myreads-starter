@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as API from '../utils/BooksAPI';
+import shelfs from '../utils/Shelfs';
 
 class Book extends React.Component {
-
     static propTypes = {
-        name: PropTypes.string.isRequired,
-        authors: PropTypes.array.isRequired,
-        image: PropTypes.string.isRequired
+        book: PropTypes.object.isRequired,
+        updateShelf: PropTypes.func.isRequired
     };
 
     threatAuthors = (authors) => {
@@ -17,8 +17,16 @@ class Book extends React.Component {
         }
     }
 
+    setShelf = ({ target: { value } }) => {
+        let { book } = this.props;
+
+        API.update(book, value).then(response => {
+            this.props.updateShelf(book);
+        })
+    }
+
     render() {
-        let { name, authors, image } = this.props;
+        let { book } = this.props;
 
         return (
             <li>
@@ -27,20 +35,19 @@ class Book extends React.Component {
                     <div className="book-cover" style={{ 
                         width: 128, 
                         height: 193, 
-                        backgroundImage: `url(${ image })` 
+                        backgroundImage: `url(${ book.imageLinks ? book.imageLinks.thumbnail : '' })` 
                     }}></div>
                     <div className="book-shelf-changer">
-                    <select>
+                    <select value={ book.shelf ? book.shelf : 'none' } onChange={ this.setShelf }>
                         <option value="move" disabled>Move to...</option>
-                        <option value="currentlyReading">Currently Reading</option>
-                        <option value="wantToRead">Want to Read</option>
-                        <option value="read">Read</option>
-                        <option value="none">None</option>
+                        { shelfs.map(shelf => (
+                            <option key={ shelf.value } value={ shelf.value }>{ shelf.title }</option>
+                        )) }
                     </select>
                     </div>
                 </div>
-                    <div className="book-title">{ name }</div>
-                    <div className="book-authors">{ this.threatAuthors(authors) }</div>
+                    <div className="book-title">{ book.title }</div>
+                    <div className="book-authors">{ this.threatAuthors(book.authors) }</div>
                 </div>
             </li>
         );
