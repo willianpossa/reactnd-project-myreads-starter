@@ -6,12 +6,15 @@ import * as API from './utils/BooksAPI'
 
 import Home from './containers/Home';
 import Search from './containers/Search';
+import ModalBook from './components/ModalBook';
 
 class App extends React.Component {
 
   state = {
     books: [],
-    loading: false
+    loading: false,
+    modalState: false,
+    currentBook: {}
   };
 
   addBooksToShelf = (book) => {
@@ -28,6 +31,19 @@ class App extends React.Component {
     })
   }
 
+  openInfoBook = book => {
+    this.setState(currentState => ({
+      modalState: true,
+      currentBook: book
+    }))
+  }
+
+  closeModalInfo = () => {
+    this.setState({
+      modalState: false
+    })
+  }
+
   componentDidMount() {
     API.getAll().then(books => {
       this.setState({
@@ -37,7 +53,7 @@ class App extends React.Component {
   }
 
 	render() {
-    let { books, loading } = this.state;
+    let { books, loading, modalState, currentBook } = this.state;
 
     return (
       <div className="app-container">
@@ -45,11 +61,12 @@ class App extends React.Component {
           <ReactLoading type={'bubbles'} color={'#FFF'} height={95} width={100} />
         </div>
         <Route exact path="/" render={ _ => (
-          <Home books={ books } handleAddBooks={ this.addBooksToShelf } />
+          <Home books={ books } handleAddBooks={ this.addBooksToShelf } handleOpenInfo={ this.openInfoBook } />
         )} />
         <Route path="/search" render={ _ => (
-          <Search myBooks={ books } handleAddBooks={ this.addBooksToShelf } />
+          <Search myBooks={ books } handleAddBooks={ this.addBooksToShelf } handleOpenInfo={ this.openInfoBook } />
         )} />
+        <ModalBook statusModal={ modalState } closeModalInfo={ this.closeModalInfo } book={ currentBook } />
       </div>
     )
 	}

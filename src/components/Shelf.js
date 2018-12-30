@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Book from './Book';
 
-const Shelf = ({title, books, handleUpdateShelf}) => {
+const Shelf = ({title, books, handleUpdateShelf, handleOpenInfo}) => {
 
     return (
         <div className="bookshelf">
@@ -15,7 +15,8 @@ const Shelf = ({title, books, handleUpdateShelf}) => {
                             <Book 
                                 key={ book.id } 
                                 book={ book } 
-                                updateShelf={ handleUpdateShelf } 
+                                updateShelf={ handleUpdateShelf }
+                                handleOpenInfo={ handleOpenInfo }
                             />
                         )) }
                     </ol>
@@ -30,7 +31,8 @@ const Shelf = ({title, books, handleUpdateShelf}) => {
 Shelf.propTypes = {
     title: PropTypes.string.isRequired,
     books: PropTypes.array.isRequired,
-    handleUpdateShelf: PropTypes.func.isRequired
+    handleUpdateShelf: PropTypes.func.isRequired,
+    handleOpenInfo: PropTypes.func
 };
 
 export default Shelf;

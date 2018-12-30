@@ -195,6 +195,13 @@ button:active {
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity .3s ease-in-out;
+}
+.book-cover:hover
+{
+  opacity: 0.6;
 }
 
 .book-cover-title {
@@ -231,4 +238,64 @@ button:active {
 .loading-holder svg
 {
   margin: 0 auto;
+}
+
+/* Modal */
+
+.modal-info-book .book-info-core
+{
+  display: flex;
+}
+
+.modal-info-book .book-info-core .book-image
+{
+  flex: 0 0 128px;
+  max-width: 128px;
+  margin-right: 20px;
+}
+
+.modal-info-book .book-info-core .book-core
+{
+  flex: 1 1 100%;
+  max-width: 100%;
+}
+
+.modal-info-book .book-info-core .book-core span
+{
+  color: #777;
+  margin-bottom: 2px;
+  display: block;
+  font-size: 12px;
+}
+
+.modal-info-book .book-info-core .book-core span.authors,
+.modal-info-book .book-info-core .book-core span.categories
+{
+  color: #212529;
+}
+
+.modal-info-book .book-info-core .book-core span span
+{
+  display: inline-block;
+}
+
+.modal-info-book .book-info
+{
+  border-top: 1px solid #E6E6E6;
+  margin-top: 20px;
+}
+
+.modal-info-book .book-info h2
+{
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 400;
+  margin: 20px 0 15px;
+}
+
+.modal-info-book .book-info .description
+{
+  font-size: 12px;
+  color: #212529;
 }

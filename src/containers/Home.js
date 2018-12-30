@@ -7,13 +7,12 @@ import shelfs from '../utils/Shelfs';
 
 import Shelf from '../components/Shelf';
 
-import '../App.css';
-
 class Home extends React.Component {
 
   static propTypes = {
     books: PropTypes.array.isRequired,
-    handleAddBooks: PropTypes.func.isRequired
+    handleAddBooks: PropTypes.func.isRequired,
+    handleOpenInfo: PropTypes.func
   }
 
   /*
@@ -30,7 +29,7 @@ class Home extends React.Component {
   }
 
   render() {
-    let { books, handleAddBooks } = this.props;
+    let { books, handleAddBooks, handleOpenInfo } = this.props;
 
     return (
       <div className="app">
@@ -42,7 +41,7 @@ class Home extends React.Component {
             <div>
               { shelfs.map(shelf => (
                 shelf.value !== 'none' 
-                ? <Shelf key={ this.hashString(shelf.value) } title={ shelf.title } books={ this.checkShelf(books, shelf.value) } handleUpdateShelf={ handleAddBooks } /> 
+                ? <Shelf key={ this.hashString(shelf.value) } title={ shelf.title } books={ this.checkShelf(books, shelf.value) } handleUpdateShelf={ handleAddBooks } handleOpenInfo={ handleOpenInfo } /> 
                 : ''
               ))}
             </div>

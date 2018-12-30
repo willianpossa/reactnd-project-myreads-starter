@@ -9,6 +9,7 @@ class Search extends React.Component {
 
     static propTypes = {
         handleAddBooks: PropTypes.func.isRequired,
+        handleOpenInfo: PropTypes.func,
         myBooks: PropTypes.array.isRequired
     }
     
@@ -51,7 +52,7 @@ class Search extends React.Component {
 
     render() {
         let { results } = this.state;
-        let { handleAddBooks } = this.props;
+        let { handleAddBooks, handleOpenInfo } = this.props;
 
         return(
             <div className="search-books">
@@ -74,6 +75,7 @@ class Search extends React.Component {
                                     key={ book.id }
                                     book={ book }
                                     updateShelf={ handleAddBooks }
+                                    handleOpenInfo={ handleOpenInfo }
                                 />
                             )) }
                         </ol>

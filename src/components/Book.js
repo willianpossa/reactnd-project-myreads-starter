@@ -6,7 +6,8 @@ import shelfs from '../utils/Shelfs';
 class Book extends React.Component {
     static propTypes = {
         book: PropTypes.object.isRequired,
-        updateShelf: PropTypes.func.isRequired
+        updateShelf: PropTypes.func.isRequired,
+        handleOpenInfo: PropTypes.func
     };
 
     state = {
@@ -39,6 +40,10 @@ class Book extends React.Component {
         })
     }
 
+    openInfo = book => {
+        this.props.handleOpenInfo(book);
+    }
+
     componentDidMount() {
         this.setState({
             currentShelf: this.props.book.shelf ? this.props.book.shelf : 'none'
@@ -52,21 +57,21 @@ class Book extends React.Component {
         return (
             <li>
                 <div className="book">
-                <div className="book-top">
-                    <div className="book-cover" style={{ 
-                        width: 128, 
-                        height: 193, 
-                        backgroundImage: `url(${ book.imageLinks ? book.imageLinks.thumbnail : '' })` 
-                    }}></div>
-                    <div className="book-shelf-changer">
-                    <select value={ currentShelf } onChange={ this.setShelf }>
-                        <option value="move" disabled>Move to...</option>
-                        { shelfs.map(shelf => (
-                            <option key={ shelf.value } value={ shelf.value }>{ shelf.title }</option>
-                        )) }
-                    </select>
+                    <div className="book-top">
+                        <div onClick={ () => { this.openInfo(book) } } className="book-cover" style={{ 
+                            width: 128, 
+                            height: 193, 
+                            backgroundImage: `url(${ book.imageLinks ? book.imageLinks.thumbnail : '' })` 
+                        }}></div>
+                        <div className="book-shelf-changer">
+                            <select value={ currentShelf } onChange={ this.setShelf }>
+                                <option value="move" disabled>Move to...</option>
+                                { shelfs.map(shelf => (
+                                    <option key={ shelf.value } value={ shelf.value }>{ shelf.title }</option>
+                                )) }
+                            </select>
+                        </div>
                     </div>
-                </div>
                     <div className="book-title">{ book.title }</div>
                     <div className="book-authors">{ this.threatAuthors(book.authors) }</div>
                 </div>
