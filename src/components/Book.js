@@ -9,24 +9,45 @@ class Book extends React.Component {
         updateShelf: PropTypes.func.isRequired
     };
 
+    state = {
+        currentShelf: ''
+    }
+
+    /*
+     * Checks if there is author and treats the authors display.
+     */
     threatAuthors = (authors) => {
         if(authors) {
             return authors.join(', ');
         } else {
-            return <p>Não informado</p>
+            return <p>Não informado</p>;
         }
     }
 
+    /*
+     * Set book shelf by updating your status and sending to the back end.
+     */
     setShelf = ({ target: { value } }) => {
         let { book } = this.props;
 
         API.update(book, value).then(response => {
             this.props.updateShelf(book);
+            
+            this.setState({
+                currentShelf: value
+            })
+        })
+    }
+
+    componentDidMount() {
+        this.setState({
+            currentShelf: this.props.book.shelf ? this.props.book.shelf : 'none'
         })
     }
 
     render() {
         let { book } = this.props;
+        let { currentShelf } = this.state;
 
         return (
             <li>
@@ -38,7 +59,7 @@ class Book extends React.Component {
                         backgroundImage: `url(${ book.imageLinks ? book.imageLinks.thumbnail : '' })` 
                     }}></div>
                     <div className="book-shelf-changer">
-                    <select value={ book.shelf ? book.shelf : 'none' } onChange={ this.setShelf }>
+                    <select value={ currentShelf } onChange={ this.setShelf }>
                         <option value="move" disabled>Move to...</option>
                         { shelfs.map(shelf => (
                             <option key={ shelf.value } value={ shelf.value }>{ shelf.title }</option>

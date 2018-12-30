@@ -2,22 +2,31 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import '../App.css';
+/* File that defines the existing shelves */
 import shelfs from '../utils/Shelfs';
 
 import Shelf from '../components/Shelf';
 
-class BooksApp extends React.Component {
+import '../App.css';
+
+class Home extends React.Component {
 
   static propTypes = {
     books: PropTypes.array.isRequired,
     handleAddBooks: PropTypes.func.isRequired
   }
 
+  /*
+   * Assigns the bookcase to the book according to the shelves available.
+   */
   checkShelf = (books, shelf) => {
     return books.filter(book => (
       book.shelf === shelf
     ));
+  }
+
+  hashString = str => {
+    return str + '_' + Math.random().toString(36).substr(2, 9);
   }
 
   render() {
@@ -32,7 +41,9 @@ class BooksApp extends React.Component {
           <div className="list-books-content">
             <div>
               { shelfs.map(shelf => (
-                shelf.value != 'none' ? <Shelf title={ shelf.title } books={ this.checkShelf(books, shelf.value) } handleUpdateShelf={ handleAddBooks } /> : ''
+                shelf.value !== 'none' 
+                ? <Shelf key={ this.hashString(shelf.value) } title={ shelf.title } books={ this.checkShelf(books, shelf.value) } handleUpdateShelf={ handleAddBooks } /> 
+                : ''
               ))}
             </div>
           </div>
@@ -45,4 +56,4 @@ class BooksApp extends React.Component {
   }
 }
 
-export default BooksApp
+export default Home

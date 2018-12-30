@@ -8,7 +8,8 @@ import Book from '../components/Book';
 class Search extends React.Component {
 
     static propTypes = {
-        handleAddBooks: PropTypes.func.isRequired
+        handleAddBooks: PropTypes.func.isRequired,
+        myBooks: PropTypes.array.isRequired
     }
     
     state = {
@@ -16,11 +17,35 @@ class Search extends React.Component {
         results: []
     }
 
+    /*
+     * Checks if the item found is already among the items added and sets its current shelf on the search screen.
+     */
+    setShelf = (result) => {
+        let { myBooks } = this.props,
+            haveShelf = myBooks.filter(book => book.id === result.id);
+
+        return haveShelf.length > 0 ? haveShelf[0].shelf : 'none';
+    }
+
+    /*
+     * It does the search every time the user changes the value of the search field.
+     */
     searchBook = ({ target: { value } }) => {
+        let searchResults = [];
+
         API.search(value).then(results => {
-            this.setState(_ => ({
-                results: results ? results : []
-            }));
+            if(results.length > 0) {
+                searchResults = results.map(result => {
+                    result.shelf = this.setShelf(result)
+
+                    return result;
+                })
+
+                this.setState({
+                    value,
+                    results: searchResults
+                });
+            }
         });
     }
 
