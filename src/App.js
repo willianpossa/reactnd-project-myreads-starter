@@ -1,5 +1,7 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import createBrowserHistory from "history/createBrowserHistory";
+
 import ReactLoading from 'react-loading';
 
 import * as API from './utils/BooksAPI'
@@ -7,6 +9,8 @@ import * as API from './utils/BooksAPI'
 import Home from './containers/Home';
 import Search from './containers/Search';
 import ModalBook from './components/ModalBook';
+
+const history = createBrowserHistory()
 
 class App extends React.Component {
 
@@ -60,12 +64,16 @@ class App extends React.Component {
         <div className={ loading ? 'loading-holder active-loading' : 'loading-holder' }>
           <ReactLoading type={'bubbles'} color={'#FFF'} height={95} width={100} />
         </div>
-        <Route exact path="/" render={ _ => (
-          <Home books={ books } handleAddBooks={ this.addBooksToShelf } handleOpenInfo={ this.openInfoBook } />
-        )} />
-        <Route path="/search" render={ _ => (
-          <Search myBooks={ books } handleAddBooks={ this.addBooksToShelf } handleOpenInfo={ this.openInfoBook } />
-        )} />
+        <Router history={ history }>
+          <Switch>
+            <Route exact path="/" render={ _ => (
+              <Home books={ books } handleAddBooks={ this.addBooksToShelf } handleOpenInfo={ this.openInfoBook } />
+            )} />
+            <Route path="/search" render={ _ => (
+              <Search myBooks={ books } handleAddBooks={ this.addBooksToShelf } handleOpenInfo={ this.openInfoBook } />
+            )} />
+          </Switch>
+        </Router>
         <ModalBook statusModal={ modalState } closeModalInfo={ this.closeModalInfo } book={ currentBook } />
       </div>
     )

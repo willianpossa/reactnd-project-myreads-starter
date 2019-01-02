@@ -35,18 +35,20 @@ class Search extends React.Component {
         let searchResults = [];
 
         API.search(value).then(results => {
-            if(results.length > 0) {
+            if(results !== undefined && results.length > 0 && !results.error) {
                 searchResults = results.map(result => {
                     result.shelf = this.setShelf(result)
 
                     return result;
                 })
-
-                this.setState({
-                    value,
-                    results: searchResults
-                });
+            } else {
+                searchResults = [];
             }
+
+            this.setState({
+                value,
+                results: searchResults
+            });
         });
     }
 
@@ -60,6 +62,7 @@ class Search extends React.Component {
                     <Link to="/" className="close-search">Close</Link>
                     <div className="search-books-input-wrapper">
                         <input 
+                            id="search-book-field"
                             type="text" 
                             placeholder="Search by title or author"
                             onChange={ this.searchBook }

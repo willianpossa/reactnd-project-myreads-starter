@@ -6,7 +6,7 @@ import shelfs from '../utils/Shelfs';
 class Book extends React.Component {
     static propTypes = {
         book: PropTypes.object.isRequired,
-        updateShelf: PropTypes.func.isRequired,
+        updateShelf: PropTypes.func,
         handleOpenInfo: PropTypes.func
     };
 
@@ -71,6 +71,7 @@ class Book extends React.Component {
                                 )) }
                             </select>
                         </div>
+                        <div onClick={ () => { this.openInfo(book) } } className="book-see-details"></div>
                     </div>
                     <div className="book-title">{ book.title }</div>
                     <div className="book-authors">{ this.threatAuthors(book.authors) }</div>

@@ -54,17 +54,19 @@ class ModalBook extends React.Component {
                             <div className="book-core">
                                 <span className="authors">{ book.authors 
                                     ? book.authors.map(author => (
-                                        <a rel="noopener noreferrer" target="_blank" href={ this.formatURL('inauthor', author) }>{ author }</a>
+                                        <a rel="noopener noreferrer" target="_blank" key={ author } href={ this.formatURL('inauthor', author) }>{ author }</a>
                                     ))
                                     : 'Não informado' }</span>
                                 <span>{ book.publisher }, { book.publishedDate } - 
                                 <span className="categories">{ book.categories 
                                     ? book.categories.map(category => (
-                                        <a rel="noopener noreferrer" target="_blank" href={ this.formatURL('subject', category) }>{ category }</a>
+                                        <a rel="noopener noreferrer" target="_blank" key={ category } href={ this.formatURL('subject', category) }>{ category }</a>
                                     ))
                                     : 'Sem categorias' 
                                 }</span> - { book.pageCount } pages</span>
-                                <span>Average Rating: { book.averageRating } Stars ({ book.ratingsCount } ratings)</span>
+                                { book.averageRating && (
+                                    <span>Average Rating: { book.averageRating } Stars ({ book.ratingsCount } ratings)</span>
+                                )}
                             </div>
                         </div>
                         <div className="book-info">
